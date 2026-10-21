@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X (트위터) 검색</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #2c2c2c; }
+        .iphone-frame { position: relative; width: 390px; height: 844px; background-color: #ffffff; border-radius: 50px; border: 8px solid #111; box-shadow: 0 0 20px rgba(0,0,0,0.5); overflow: hidden; display: flex; flex-direction: column; }
+        
+        .status-bar { display: flex; justify-content: space-between; padding: 15px 25px 10px 25px; color: black; font-size: 14px; font-weight: bold; z-index: 20; background-color: white;}
+        .dynamic-island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 35px; background-color: black; border-radius: 20px; }
+
+        /* 상단 검색 바 영역 */
+        .search-header { display: flex; align-items: center; padding: 10px 15px; gap: 15px; border-bottom: 1px solid #eff3f4; }
+        .back-btn { font-size: 20px; text-decoration: none; color: black; font-weight: bold; }
+        .search-input-box { flex: 1; background-color: #eff3f4; padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 10px; color: #0f1419; font-size: 15px; }
+        .header-icons { display: flex; gap: 15px; font-size: 20px; color: #0f1419; }
+
+        /* 검색 탭 */
+        .tabs { display: flex; justify-content: space-between; border-bottom: 1px solid #eff3f4; font-size: 15px; font-weight: bold; color: #536471; padding: 15px 20px 0 20px; overflow-x: auto; white-space: nowrap; }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab { padding-bottom: 15px; position: relative; margin-right: 20px; }
+        .tab.active { color: #0f1419; }
+        .tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background-color: #1d9bf0; border-radius: 2px; }
+
+        /* 전체 스크롤 영역 */
+        .scroll-content { flex: 1; overflow-y: auto; padding-bottom: 60px; }
+        .scroll-content::-webkit-scrollbar { display: none; }
+
+        /* 트윗 목록 공통 */
+        .tweet { display: flex; padding: 15px; border-bottom: 1px solid #eff3f4; }
+        .tweet-avatar { width: 40px; height: 40px; border-radius: 50%; background-image: url('tb.JPEG'); background-size: cover; margin-right: 10px; flex-shrink: 0; background-color: #eee;}
+        .tweet-content { flex: 1; overflow: hidden; }
+        .tweet-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+        .tweet-name { font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tweet-meta { color: #536471; font-size: 14px; font-weight: normal; }
+        .tweet-text { font-size: 15px; line-height: 1.4; margin-bottom: 10px; word-break: break-all; }
+        .hashtag { color: #1d9bf0; text-decoration: none; }
+        
+        /* 사진이 포함된 게시물용 이미지 그리드 */
+        .image-grid { display: flex; gap: 5px; margin-bottom: 10px; border-radius: 15px; overflow: hidden; height: 200px; }
+        .grid-img { flex: 1; background-color: #cfd9de; background-size: cover; background-position: center; }
+
+        /* 액션 버튼 */
+        .tweet-actions { display: flex; justify-content: space-between; color: #536471; font-size: 13px; max-width: 300px; }
+        .action-item { display: flex; align-items: center; gap: 5px; }
+
+        /* 하단 고정 네비게이션 & 플로팅 버튼 */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; background-color: rgba(255,255,255,0.95); border-top: 1px solid #eff3f4; display: flex; justify-content: space-around; padding: 15px 0 25px 0; z-index: 20; }
+        .nav-icon { font-size: 24px; color: #536471; text-decoration: none; }
+        .nav-icon.active { font-weight: bold; color: #0f1419; }
+        .fab { position: absolute; bottom: 80px; right: 20px; width: 55px; height: 55px; background-color: #1d9bf0; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 20; }
+    </style>
+</head>
+<body>
+
+<div class="iphone-frame">
+    <div class="status-bar"><span>16:44</span><div class="dynamic-island"></div><span>LTE 🔋</span></div>
+
+    <!-- 검색 바 -->
+    <div class="search-header">
+        <a href="twitter.html" class="back-btn">←</a>
+        <div class="search-input-box">
+            🔍 김민식
+        </div>
+        <div class="header-icons">
+            <span>≑</span> <!-- 필터 아이콘 대용 -->
+            <span>↑</span> <!-- 공유 아이콘 대용 -->
+        </div>
+    </div>
+
+    <!-- 검색 탭 -->
+    <div class="tabs">
+        <div class="tab">인기</div>
+        <div class="tab active">최근</div>
+        <div class="tab">사용자</div>
+        <div class="tab">동영상</div>
+        <div class="tab">사진</div>
+    </div>
+
+    <!-- 스크롤 영역 -->
+    <div class="scroll-content">
+        
+        <!-- 게시물 1 (사진 없는 텍스트 게시물) -->
+        <div class="tweet">
+            <div class="tweet-avatar" style="background-image: url('tb.JPEG');"></div>
+            <div class="tweet-content">
+                <div class="tweet-header">
+                    <div class="tweet-name">병신들패는계정 ✔ <span class="tweet-meta">@bsgsdjh · 1일</span></div>
+                    <div style="color: #536471;">✕</div>
+                </div>
+                <div class="tweet-text">
+                    래퍼 <strong>김민식</strong> 빠혐 수준 / 여자팬 돈으로 먹고 사는 주제에 다른 래퍼들한테 잘 보이겠다고 여자팬 비하하는 거 웃기고 ㅋㅋ 서시우랑 비게퍼나 그만해 병신아
+                </div>
+                <div class="tweet-actions">
+                    <div class="action-item">💬 16</div>
+                    <div class="action-item">🔁 2620</div>
+                    <div class="action-item">♡ 1520</div>
+                    <div class="action-item">📊 15632</div>
+                    <div class="action-item">🔖 ↑</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게시물 2 (사진이 포함된 게시물) -->
+        <div class="tweet">
+            <div class="tweet-avatar" style="background-image: url('tb.JPEG');"></div>
+            <div class="tweet-content">
+                <div class="tweet-header">
+                    <div class="tweet-name">작전계아님 <span class="tweet-meta">@fnklzfjlk · 2일</span></div>
+                    <div style="color: #536471; display:flex; gap:10px;"><span>∅</span> <span>⋯</span></div>
+                </div>
+                <div class="tweet-text">
+                    래퍼 김민식 여혐 가사 수준<br><br>
+                    <a href="#" class="hashtag">#국힙</a> <a href="#" class="hashtag">#김민식</a>
+                </div>
+                
+                <!-- 이미지 2개 그리드 -->
+                <div class="image-grid">
+                    <div class="grid-img" style="background-image: url('dsa.png');"></div>
+                    <div class="grid-img" style="background-image: url('dsa.png');"></div>
+                </div>
+
+                <div class="tweet-actions">
+                    <div class="action-item">💬 26</div>
+                    <div class="action-item">🔁 5145</div>
+                    <div class="action-item">♡ 2544</div>
+                    <div class="action-item">📊 78851</div>
+                    <div class="action-item">🔖 ↑</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tweet">
+            <div class="tweet-avatar" style="background-image: url('tb.JPEG');"></div>
+            <div class="tweet-content">
+                <div class="tweet-header">
+                    <div class="tweet-name">낚시꾼 <span class="tweet-meta">@djsbd · 1일</span></div>
+                    <div style="color: #536471;">✕</div>
+                </div>
+                <div class="tweet-text">
+                    에휴 씨발 김민식 병신아
+                </div>
+                <div class="tweet-actions">
+                    <div class="action-item">💬 2</div>
+                    <div class="action-item">🔁</div>
+                    <div class="action-item">♡ 5</div>
+                    <div class="action-item">📊 521</div>
+                    <div class="action-item">🔖 ↑</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 20px;"></div>
+    </div>
+
+    <!-- 플로팅 버튼 -->
+    <div class="fab">＋</div>
+
+    <!-- 하단 네비게이션 -->
+    <div class="bottom-nav">
+        <!-- 홈 버튼 (프로필로 돌아가기) -->
+        <a href="twitter.html" class="nav-icon">⌂</a>
+        <!-- 검색 버튼 (현재 페이지 활성화) -->
+        <a href="twitter_search.html" class="nav-icon active">🔍</a>
+        <a href="#" class="nav-icon">∅</a>
+        <a href="#" class="nav-icon">🔔</a>
+        <a href="#" class="nav-icon">✉</a>
+    </div>
+</div>
+
+</body>
+</html>
