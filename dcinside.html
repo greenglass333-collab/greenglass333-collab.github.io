@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디시인사이드 갤러리</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #2c2c2c; }
+        .iphone-frame { position: relative; width: 390px; height: 844px; background-color: #ffffff; border-radius: 50px; border: 8px solid #111; box-shadow: 0 0 20px rgba(0,0,0,0.5); overflow: hidden; display: flex; flex-direction: column; }
+        
+        /* 상태바 */
+        .status-bar { display: flex; justify-content: space-between; padding: 15px 25px 10px 25px; color: white; font-size: 14px; font-weight: bold; background-color: #4a51a3; z-index: 10; }
+        .dynamic-island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 35px; background-color: black; border-radius: 20px; }
+
+        /* 상단 헤더 */
+        .header { background-color: #4a51a3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; font-size: 18px; font-weight: bold; }
+        .header .icons { font-size: 20px; letter-spacing: 15px; font-weight: normal; }
+
+        /* 콘텐츠 영역 (스크롤) */
+        .content { flex: 1; overflow-y: auto; padding-bottom: 110px; } /* 하단바+광고 공간 확보 */
+        .content::-webkit-scrollbar { display: none; }
+
+        /* 상단 광고 배너 */
+        .ad-banner { display: flex; padding: 10px; border-bottom: 1px solid #eee; }
+        .ad-banner .ad-img { width: 50px; height: 50px; background-color: #000; margin-right: 10px; border-radius: 5px; }
+        .ad-text { font-size: 13px; line-height: 1.4; }
+        
+        /* 글 목록 항목 */
+        .list-item { display: block; padding: 12px 15px; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: black; }
+        .list-title { font-size: 15px; margin-bottom: 5px; color: #333; }
+        .list-meta { font-size: 11px; color: #999; display: flex; justify-content: space-between; }
+        .comment-cnt { color: #4a51a3; font-weight: bold; font-size: 13px; margin-left: 5px; }
+
+        /* 플로팅 글쓰기 버튼 */
+        .write-btn { position: absolute; bottom: 120px; right: 20px; width: 50px; height: 50px; background-color: #f0f0f8; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-size: 24px; color: #4a51a3; }
+
+        /* 하단 네비게이션 및 광고 (고정) */
+        .bottom-fixed { position: absolute; bottom: 0; width: 100%; background-color: white; border-top: 1px solid #eee; z-index: 20; }
+        .bottom-ad { height: 50px; background-image: url('zeta.png'); background-size: cover; background-position: center; background-color: #111; }
+        .bottom-nav { display: flex; justify-content: space-around; padding: 10px 0 20px 0; font-size: 11px; color: #666; text-align: center; }
+        .bottom-nav div { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .nav-icon { font-size: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="iphone-frame">
+    <div class="status-bar"><span>15:52</span><div class="dynamic-island"></div><span>LTE 🔋</span></div>
+    
+    <div class="header">
+        <span style="font-weight: normal;">≡</span>
+        <span>힙합</span>
+        <div class="icons">▽⋮</div>
+    </div>
+
+    <div class="content">
+        <!-- 상단 광고 -->
+        <div class="ad-banner">
+            <div class="ad-img" style="background-image: url('광고로고.png');"></div>
+            <div class="ad-text">
+                <span style="font-size: 10px; border: 1px solid #ccc; padding: 1px 3px; border-radius: 2px;">Ad</span><br>
+                <strong>매일 도파민 터지는 이유</strong><br>
+                <span style="color: #666;">나한테 이런 일이 벌어진다고? 하고 싶은 말 다 하는 AI 채팅</span>
+            </div>
+        </div>
+
+        <!-- 글 목록 1 (클릭 시 글 본문으로 이동) -->
+        <a href="dc_article.html" class="list-item">
+            <div class="list-title">민식이 빠순이련들은</div>
+            <div class="list-meta">
+                <span>힙갤러(223.38) | 조회 0 | 추천 0</span>
+                <span>15:52</span>
+            </div>
+        </a>
+
+        <!-- 글 목록 2 (댓글 1개 있는 글) -->
+        <a href="dc_article2.html" class="list-item">
+            <div class="list-title">학폭논란 절대 없을 래퍼<span class="comment-cnt">[1]</span></div>
+            <div class="list-meta">
+                <span>힙갤러(118.235) | 조회 5 | 추천 0</span>
+                <span>15:51</span>
+            </div>
+        </a>
+
+        <!-- 목록 추가 시 윗부분 <a href="..."> 부터 </a>까지 복사해서 붙여넣기 -->
+        <a href="#" class="list-item">
+            <div class="list-title">현시점 국힙 와꾸 1위</div>
+            <div class="list-meta">
+                <span>코붕이 | 조회 50 | 추천 0</span>
+                <span>15:52</span>
+            </div>
+        </a>
+        <a href="#" class="list-item">
+            <div class="list-title">에휴 씨발</div>
+            <div class="list-meta">
+                <span>짘박구리 | 조회 30 | 추천 0</span>
+                <span>15:52</span>
+            </div>
+        </a>
+
+        <a href="#" class="list-item">
+            <div class="list-title">마약은 왜 하는 거냐</div>
+            <div class="list-meta">
+                <span>코코몽 | 조회 15 | 추천 0</span>
+                <span>15:52</span>
+            </div>
+        </a>
+
+        <a href="#" class="list-item">
+            <div class="list-title">불쌍하노</div>
+            <div class="list-meta">
+                <span>힙갤붕이 | 조회 1 | 추천 0</span>
+                <span>15:52</span>
+            </div>
+        </a>
+
+        
+    </div>
+
+    <!-- 플로팅 글쓰기 버튼 -->
+    <div class="write-btn">✎</div>
+
+    <!-- 하단 고정 영역 -->
+    <div class="bottom-fixed">
+        <div class="bottom-ad"></div>
+        <div class="bottom-nav">
+            <div style="color: #4a51a3;"><span class="nav-icon">⌂</span>홈</div>
+            <div><span class="nav-icon">📢</span>공지</div>
+            <div><span class="nav-icon">☆</span>개념글</div>
+            <div><span class="nav-icon">🔍</span>검색</div>
+            <div><span class="nav-icon">✎</span>글쓰기</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
